@@ -5,8 +5,8 @@ module.exports = function (url, cb) {
     page.onResourceRequested = function(request, network) {
 	if (request.url.indexOf('.css')     !== -1
 	    || request.url.indexOf('.png')  !== -1
-	    || request.url.indexOf('.jpg')  !== -1
-	    || request.url.indexOf('.jpeg') !== -1
+	    // || request.url.indexOf('.jpg')  !== -1
+	    // || request.url.indexOf('.jpeg') !== -1
             || request.url.indexOf('.otf')  !== -1
 	    || request.url.indexOf('.swf')  !== -1
 	   ) {
@@ -16,7 +16,11 @@ module.exports = function (url, cb) {
     };
 
     page.onResourceReceived = function(response) {};
-    
+
+    page.onError = function(msg, trace) {
+        return ;
+    };
+
     page.open(url, function(status) {
     	if (status !== 'success') {
     	    console.log('Error: Unable to access network!');

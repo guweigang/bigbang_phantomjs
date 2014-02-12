@@ -16,6 +16,10 @@ module.exports = function (url, cb) {
     };
 
     page.onResourceReceived = function(response) {};
+
+    page.onError = function(msg, trace) {
+        return ;
+    };
     
     page.open(url, function(status) {
     	if (status !== 'success') {
