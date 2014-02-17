@@ -20,7 +20,15 @@ service = server.listen(port, function (request, response) {
 	return ;
     }
     
-    var line;
+
+
+    if(!request.post) {
+	response.write('<a href="http://www.shopbigbang.com">血拼大爆炸</a>');
+	response.close();
+	return;
+    }
+    
+    var line;    
     line = request.post.url;
     
     var spiderModule = require('./router');
