@@ -1,8 +1,12 @@
 var system = require("system");
 
 function getStdin(err, data) {
+    var ret = {};
     if (err) {
-	console.log(err);
+	ret.status = 500;
+	ret.msg    = err;
+	ret.data   = null;
+	console.log(JSON.stringify(ret));
 	phantom.exit(1);
 	return;
     }
@@ -11,12 +15,18 @@ function getStdin(err, data) {
     var spiderModule = require('./router');
     var spider = spiderModule(line);
     if(spider === undefined) {
-	console.log("not valid url");
+	ret.status = 500;
+	ret.msg    = "not valid url";
+	ret.data   = null;
+	console.log(JSON.stringify(ret));	
 	phantom.exit(1);
 	return ;
     }
     spider(line, function(err, data) {
-	console.log(JSON.stringify(data));
+	ret.status = 200;
+	ret.msg    = null;
+	ret.data   = data;
+	console.log(JSON.stringify(ret));
 	phantom.exit();
 	return ;	
     });
