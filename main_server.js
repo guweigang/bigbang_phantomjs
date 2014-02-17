@@ -5,7 +5,6 @@ if (system.args.length !== 2) {
     console.log('Usage: main_server.js <portnumber>');
     phantom.exit(1);
 }
-
 var port = system.args[1];
 
 service = server.listen(port, function (request, response) {
@@ -22,17 +21,25 @@ service = server.listen(port, function (request, response) {
     }
     
     var line;
-    line = request.url.split('=')[1];
-
+    line = request.post.url;
+    
     var spiderModule = require('./router');
     var spider = spiderModule(line);
 
+    var ret = {};
+
     if(spider === undefined) {
-	response.write("not valid url");
+	ret.status = 500;
+	ret.msg    = "not valid url";
+	ret.data   = {};
+	response.write(JSON.stringify(ret));
 	response.close();
     } else {
     	spider(line, function (err, data) {
-	    response.write(JSON.stringify(data));
+	    ret.status = 200;
+	    ret.msg    = null;
+	    ret.data   = data;
+	    response.write(JSON.stringify(ret));
 	    response.close();
 	});
     }

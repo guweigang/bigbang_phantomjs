@@ -31,10 +31,12 @@ module.exports = function (url, cb) {
     		json_data.name = document.querySelector('div#name>h1:first-child').textContent;
     		var img_url_arr = document.querySelectorAll('#spec-list li img');
     		json_data.s_imgs = [];
+		json_data.m_imgs = [];		
 		json_data.l_imgs = [];			
     		for(var i in img_url_arr){
     		    if(img_url_arr[i].nodeType && (img_url_arr[i].nodeType == 1)){
     			json_data.s_imgs.push(img_url_arr[i].src);
+			json_data.m_imgs.push(img_url_arr[i].src.replace("/n5/", "/n1/"));
 			json_data.l_imgs.push(img_url_arr[i].src.replace("/n5/", "/n0/"));
     		    }
     		}
