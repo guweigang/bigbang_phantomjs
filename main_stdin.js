@@ -3,21 +3,23 @@ var system = require("system");
 function getStdin(err, data) {
     if (err) {
 	console.log(err);
-	getStdin();
+	phantom.exit(1);
 	return;
     }
-    data && console.log(JSON.stringify(data));
     var line;
     line = system.stdin.readLine();
     var spiderModule = require('./router');
     var spider = spiderModule(line);
     if(spider === undefined) {
 	console.log("not valid url");
-	getStdin();
+	phantom.exit(1);
 	return ;
     }
-    spider(line, getStdin);
-
+    spider(line, function(err, data) {
+	console.log(JSON.stringify(data));
+	phantom.exit();
+	return ;	
+    });
 }
 
 getStdin();

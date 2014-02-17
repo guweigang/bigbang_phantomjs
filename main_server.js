@@ -20,8 +20,6 @@ service = server.listen(port, function (request, response) {
 	return ;
     }
     
-
-
     if(!request.post) {
 	response.write('<a href="http://www.shopbigbang.com">血拼大爆炸</a>');
 	response.close();
